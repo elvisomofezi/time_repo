@@ -3,43 +3,36 @@
   hosts: hw_1
   become: yes
   tasks:
-  - name: Update the system
-    yum:
-      name: "*"
-      state: latest
+    - name: Update the system
+      yum:
+        name: "*"
+        state: latest
+    - name: Install Java
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+    - name: Download Tomcat
+      get_url:
+        url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
+        dest: /tmp/tomcat.tar.gz
+    - name: Extract Tomcat
+      unarchive:
+        src: /tmp/tomcat.tar.gz
+        dest: /opt/
+    - name: Create Tomcat symlink
+      file:
+        src: /opt/apache-tomcat-9.0.31
+        dest: /opt/tomcat
+        state: link
+    - name: Add Tomcat to Environment Variables
+      lineinfile:
+        dest: /etc/environment
+        line: CATALINA_HOME=/opt/tomcat
+        state: present
+        insertafter: EOL
+    - name: null
+      file:
+        src: /opt/apache-tomcat-9.0.31
+        dest: /opt/tomcat
+        state: link
 
-  - name: Install Java
-    yum:
-      name: java-1.8.0-openjdk
-      state: present
-
-  - name: Download Tomcat
-    get_url:
-      url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
-      dest: /tmp/tomcat.tar.gz
-
-  - name: Extract Tomcat
-    unarchive:
-      src: /tmp/tomcat.tar.gz
-      dest: /opt/
-
-  - name: Create Tomcat symlink
-    file:
-      src: /opt/apache-tomcat-9.0.31
-      dest: /opt/tomcat
-      state: link
-
-  - name: Add Tomcat to Environment Variables
-    lineinfile:
-      dest: /etc/environment
-      line: "CATALINA_HOME=/opt/tomcat"
-      state: present
-      insertafter: EOL
-
-       name: 
-    file:
-      src: /opt/apache-tomcat-9.0.31
-      dest: /opt/tomcat
-      state: link
-
-...
