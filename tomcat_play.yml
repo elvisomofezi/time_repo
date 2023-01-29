@@ -35,4 +35,26 @@
         src: /opt/apache-tomcat-9.0.31
         dest: /opt/tomcat
         state: link
-
+- name: Deploy Time Display Script
+  hosts: tomcat
+  become: yes
+  tasks:
+    - name: Copy script to servers
+      copy:
+        src: /path/to/time-display.sh
+        dest: /usr/local/bin/
+        mode: 755
+    - name: Make script executable
+      file:
+        path: /usr/local/bin/time-display.sh
+        mode: 755
+- name: Schedule time display script
+  hosts: tomcat
+  become: yes
+  tasks:
+    - name: Create cron job
+      cron:
+        name: Display current time
+        job: /usr/local/bin/time-display.sh
+        minute: "*/2"
+...
