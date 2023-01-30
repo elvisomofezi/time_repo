@@ -1,6 +1,6 @@
 ---
 - name: Install Tomcat on Centos
-  hosts: hw_1
+  hosts: g1
   become: yes
   tasks:
     - name: Update the system
@@ -11,13 +11,21 @@
       yum:
         name: java-1.8.0-openjdk
         state: present
+     - name: Create a Directory /opt/tomcat8
+      become: yes
+      file:
+        path: /opt/tomcat9
+        state: directory
+        mode: 755
+        owner: tomcat
+        group: tomcat    
     - name: Download Tomcat
       get_url:
         url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
-        dest: /tmp/tomcat.tar.gz
+        dest: /opt/tomvat9/tomcat.tar.gz
     - name: Extract Tomcat
       unarchive:
-        src: /tmp/tomcat.tar.gz
+        src: /opt/tomcat9/tomcat.tar.gz
         dest: /opt/
     - name: Create Tomcat symlink
       file:
