@@ -11,14 +11,14 @@
       yum:
         name: java-1.8.0-openjdk
         state: present
-     - name: Create a Directory /opt/tomcat8
+    - name: Create a Directory /opt/tomcat8
       become: yes
       file:
         path: /opt/tomcat9
         state: directory
         mode: 755
         owner: tomcat
-        group: tomcat    
+        group: tomcat
     - name: Download Tomcat
       get_url:
         url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
@@ -65,4 +65,4 @@
         name: Display current time
         job: /usr/local/bin/currenttime.sh
         minute: "*/2"
-...
+ ...
