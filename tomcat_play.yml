@@ -29,7 +29,6 @@
         dest: /etc/environment
         line: CATALINA_HOME=/opt/tomcat
         state: present
-        insertafter: EOL
     - name: null
       file:
         src: /opt/apache-tomcat-9.0.31
@@ -41,13 +40,11 @@
   tasks:
     - name: Copy script to servers
       copy:
-        src: /path/to/time-display.sh
+        src: /path/to/currenttime.sh
         dest: /usr/local/bin/
-        mode: 755
     - name: Make script executable
       file:
-        path: /usr/local/bin/time-display.sh
-        mode: 755
+        path: /usr/local/bin/currenttime.sh
 - name: Schedule time display script
   hosts: tomcat
   become: yes
@@ -55,6 +52,6 @@
     - name: Create cron job
       cron:
         name: Display current time
-        job: /usr/local/bin/time-display.sh
+        job: /usr/local/bin/currenttime.sh
         minute: "*/2"
 ...
