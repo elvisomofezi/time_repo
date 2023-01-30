@@ -11,13 +11,6 @@
       yum:
         name: java-1.8.0-openjdk
         state: present
-    - name: Create a Directory /opt/tomcat9
-      become: yes
-      file:
-        path: /opt/tomcat9
-        state: directory
-        owner: tomcat
-        group: tomcat
     - name: Download Tomcat
       get_url:
         url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
