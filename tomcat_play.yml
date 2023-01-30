@@ -1,3 +1,4 @@
+
 ---
 - name: Download Tomcat8 from tomcat.apache.org
   hosts: g1
@@ -97,4 +98,4 @@
       until: result.status == 200
       retries: 5
       delay: 10
-      ...
+...
