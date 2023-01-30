@@ -16,7 +16,6 @@
       file:
         path: /opt/tomcat9
         state: directory
-        mode: 755
         owner: tomcat
         group: tomcat
     - name: Download Tomcat
@@ -51,11 +50,9 @@
       copy:
         src: /path/to/currenttime.sh
         dest: /usr/local/bin/
-        mode: 755
     - name: Make script executable
       file:
         path: /usr/local/bin/currenttime.sh
-        mode: 755
 - name: Schedule time display script
   hosts: tomcat
   become: yes
