@@ -1,58 +1,24 @@
 ---
-- name: Install Tomcat on Centos
-  hosts: g1
-  become: yes
-  tasks:
-    - name: Update the system
-      yum:
-        name: "*"
-        state: latest
-    - name: Install Java
-      yum:
-        name: java-1.8.0-openjdk
-        state: present
-    - name: Download Tomcat
-      get_url:
-        url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.31/bin/apache-tomcat-9.0.31.tar.gz
-        dest: /opt/tomvat9/tomcat.tar.gz
-    - name: Extract Tomcat
-      unarchive:
-        src: /opt/tomcat9/tomcat.tar.gz
-        dest: /opt/
-    - name: Create Tomcat symlink
-      file:
-        src: /opt/apache-tomcat-9.0.31
-        dest: /opt/tomcat
-        state: link
-    - name: Add Tomcat to Environment Variables
-      lineinfile:
-        dest: /etc/environment
-        line: CATALINA_HOME=/opt/tomcat
-        state: present
-        insertafter: EOL
-    - name: null
-      file:
-        src: /opt/apache-tomcat-9.0.31
-        dest: /opt/tomcat
-        state: link
-- name: Deploy Time Display Script
-  hosts: tomcat
-  become: yes
-  tasks:
-    - name: Copy script to servers
-      copy:
-        src: /path/to/currenttime.sh
-        dest: /usr/local/bin/
-    - name: Make script executable
-      file:
-        path: /usr/local/bin/currenttime.sh
-- name: Schedule time display script
-  hosts: tomcat
-  become: yes
-  tasks:
-    - name: Create cron job
-      cron:
-        name: Display current time
-        job: /usr/local/bin/currenttime.sh
-        minute: "*/2"
+ - name: install tomcat server
+   hosts: all
+   become: true
+
+   tasks:
+   - name: install java
+     yum:
+      name: java-1.8*
+
+   - name: download tomcat server packages
+     get_url:
+       url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz
+       dest: /usr/local
+
+   - name: extract tomcat packages
+     unarchive:
+       src: /usr/local/apache-tomcat-10.0.27.tar.gz
+       dest: /usr/local
+       remote_src: yes
+
+   - name: start tomcat services
+     shell: nohup /usr/local/apache-tomcat-10.0.27/bin/startup.sh
 ...
