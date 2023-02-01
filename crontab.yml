@@ -1,0 +1,16 @@
+---
+- name: cron job
+  hosts: g1
+  become: yes
+
+  tasks:
+  - name: run the script
+    cron:
+        state: present
+        job: /usr/bin/time.sh
+        minute: "*/2"
+        hour: 0
+        day: "*"
+        month: "*"
+        weekday: "*"
+...
